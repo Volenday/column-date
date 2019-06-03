@@ -62,7 +62,7 @@ export default props => {
 							class="input-group-addon"
 							onClick={e => onChange({ Id: original.Id, [id]: value })}
 							style={{ cursor: 'pointer' }}>
-							<i class="fa fa-floppy-o" aria-hidden="true" />
+							<i class="fas fa-save" />
 						</div>
 					</div>
 				);
@@ -87,7 +87,7 @@ export default props => {
 											class="input-group-addon"
 											onClick={e => onChange('')}
 											style={{ cursor: 'pointer' }}>
-											<i class="fa fa-times" aria-hidden="true" />
+											<i class="fas fa-times" />
 										</div>
 									)}
 									<input
@@ -102,7 +102,7 @@ export default props => {
 										class="input-group-addon"
 										onClick={e => toggle()}
 										style={{ cursor: 'pointer' }}>
-										<i class="fa fa-calendar" aria-hidden="true" />
+										<i class="fas fa-calendar-alt" />
 									</div>
 								</div>
 							);
