@@ -59,10 +59,12 @@ export default props => {
 							withTime={true}
 						/>
 						<div
-							class="input-group-addon"
+							class="input-group-append"
 							onClick={e => onChange({ Id: original.Id, [id]: value })}
 							style={{ cursor: 'pointer' }}>
-							<i class="fas fa-save" />
+							<span class="input-group-text">
+								<i class="fas fa-save" />
+							</span>
 						</div>
 					</div>
 				);
@@ -84,10 +86,12 @@ export default props => {
 								<div class="input-group" ref={getRef} style={{ width: '100%' }}>
 									{defaultValue && (
 										<div
-											class="input-group-addon"
+											class="input-group-append"
 											onClick={e => onChange('')}
 											style={{ cursor: 'pointer' }}>
-											<i class="fas fa-times" />
+											<span class="input-group-text">
+												<i class="fas fa-times" />
+											</span>
 										</div>
 									)}
 									<input
@@ -99,10 +103,12 @@ export default props => {
 										value={defaultValue ? defaultValue.format('YYYY/MM/DD') : ''}
 									/>
 									<div
-										class="input-group-addon"
+										class="input-group-append"
 										onClick={e => toggle()}
 										style={{ cursor: 'pointer' }}>
-										<i class="fas fa-calendar-alt" />
+										<span class="input-group-text">
+											<i class="fas fa-calendar-alt" />
+										</span>
 									</div>
 								</div>
 							);
@@ -185,10 +191,12 @@ class CustomDateRange extends Component {
 						<div class="input-group" ref={getRef}>
 							{defaultValue.startDate && (
 								<div
-									class="input-group-addon"
+									class="input-group-append"
 									onClick={e => onChange('')}
 									style={{ cursor: 'pointer' }}>
-									<i class="fa fa-times" aria-hidden="true" />
+									<span class="input-group-text">
+										<i class="fa fa-times" aria-hidden="true" />
+									</span>
 								</div>
 							)}
 							<input
@@ -205,8 +213,10 @@ class CustomDateRange extends Component {
 										: ''
 								}
 							/>
-							<div class="input-group-addon" onClick={e => toggle()} style={{ cursor: 'pointer' }}>
-								<i class="fa fa-calendar" aria-hidden="true" />
+							<div class="input-group-append" onClick={e => toggle()} style={{ cursor: 'pointer' }}>
+								<span class="input-group-text">
+									<i class="fa fa-calendar" aria-hidden="true" />
+								</span>
 							</div>
 						</div>
 					);
