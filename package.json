@@ -19,7 +19,7 @@
 		"react-dom": "~16.8.6"
 	},
 	"dependencies": {
-		"@volenday/input-date": "~0.0.13",
+		"@volenday/input-date": "~0.0.14",
 		"evergreen-ui": "~4.18.1",
 		"moment": "~2.24.0",
 		"react": "~16.8.6",
