@@ -1064,14 +1064,14 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@volenday/input-date@~0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@volenday/input-date/-/input-date-0.0.14.tgz#1839128c82427bfb72981061fcb38c1db1bb8e48"
-  integrity sha512-E8ZYOuk4zVldVIqlmuKPfI4XD8vCm6j3/oOFbOpJURUSxziANVZkQBySEjYMkwMmlXJ3ogfWudf+P6yf3cw8ZA==
+"@volenday/input-date@~0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@volenday/input-date/-/input-date-0.1.0.tgz#1e3451c8fc74bcf3c5124ba5c357085c4ebf9a62"
+  integrity sha512-sCEuyLtDmFM26kkViLGFIuYfJDNQdkslBYpqEMeGTNR5tMxp8HhS1x18Dh+3N0X+/rj6Vgr9IbB21RYtXZJZHA==
   dependencies:
     antd "~3.20.5"
     moment "~2.24.0"
-    rc-calendar "~9.15.4"
+    rc-calendar "~9.11.0"
     react "~16.8.6"
     react-dom "~16.8.6"
     webpack "~4.36.1"
@@ -4585,7 +4585,20 @@ rc-animate@^3.0.0-rc.1:
     rc-util "^4.5.0"
     react-lifecycles-compat "^3.0.4"
 
-rc-calendar@~9.15.0, rc-calendar@~9.15.4:
+rc-calendar@~9.11.0:
+  version "9.11.0"
+  resolved "https://registry.yarnpkg.com/rc-calendar/-/rc-calendar-9.11.0.tgz#0972244c26bc213e9302423832baf0b16396fcf9"
+  integrity sha512-yyNktcod0fEOhGL7feQmIwcZqK6oOqbczQhLc9QWFxy9QRQfWcREBNtJOmJvF06y9RU4N5UyW+YyiewiVpF7uQ==
+  dependencies:
+    babel-runtime "6.x"
+    classnames "2.x"
+    moment "2.x"
+    prop-types "^15.5.8"
+    rc-trigger "^2.2.0"
+    rc-util "^4.1.1"
+    react-lifecycles-compat "^3.0.4"
+
+rc-calendar@~9.15.0:
   version "9.15.4"
   resolved "https://registry.yarnpkg.com/rc-calendar/-/rc-calendar-9.15.4.tgz#b8fe1d6b1f9c3963521f4d17c06b43720f052168"
   integrity sha512-+3gS00OO6OfNL7R9vI/YOY86oZ1NKRiK74CzVinJ6qm1PhQobr8IfSdli3cdj6vib9i1MKVn7xRSgUpgJ0rKhA==

@@ -1,6 +1,6 @@
 {
 	"name": "@volenday/column-date",
-	"version": "0.0.7",
+	"version": "0.1.0",
 	"private": false,
 	"license": "MIT",
 	"author": "Jerome Miranda <jerome.m.miranda@gmail.com>",
@@ -19,7 +19,7 @@
 		"react-dom": "~16.8.6"
 	},
 	"dependencies": {
-		"@volenday/input-date": "~0.0.14",
+		"@volenday/input-date": "~0.1.0",
 		"evergreen-ui": "~4.18.1",
 		"moment": "~2.24.0",
 		"react": "~16.8.6",
