@@ -51,7 +51,7 @@ export default props => {
 		Cell: ({ index, original, value }) => {
 			if (editable) {
 				return (
-					<div class="input-group" style={{ width: '100%' }}>
+					<div class="input-group" style={{ width: '100%', display: 'contents' }}>
 						<InputDate
 							id={id}
 							value={value}
@@ -62,7 +62,7 @@ export default props => {
 							class="input-group-append"
 							onClick={e => onChange({ Id: original.Id, [id]: value })}
 							style={{ cursor: 'pointer' }}>
-							<span class="input-group-text">
+							<span class="input-group-text" style={{ height: '40px' }}>
 								<i class="fas fa-save" />
 							</span>
 						</div>
