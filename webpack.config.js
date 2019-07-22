@@ -5,7 +5,7 @@ module.exports = {
 	context: __dirname,
 	devtool: false,
 	entry: {
-		app: ['core-js/stable', 'regenerator-runtime/runtime', './index.js']
+		index: ['core-js/stable', 'regenerator-runtime/runtime', './index.js']
 	},
 	module: {
 		rules: [
@@ -49,7 +49,6 @@ module.exports = {
 	output: {
 		path: `${__dirname}/dist/`,
 		filename: '[name].min.js',
-		chunkFilename: '[name].[chunkhash].chunk.min.js',
 		libraryTarget: 'commonjs2'
 	},
 	externals: {
