@@ -51,14 +51,22 @@ export default props => {
 		Cell: ({ index, original, value }) => {
 			if (editable) {
 				return (
-					<div class="input-group" style={{ width: '100%', display: 'grid' }}>
+					<div class="input-group" style={{ display: 'flex' }}>
 						<InputDate
+							styles={{ minWidth: 0, flex: 1 }}
 							id={id}
 							value={value}
 							onChange={(field, value) => onChangeText(index, field, value)}
 							withTime={true}
-							onOk={e => onChange({ Id: original.Id, [id]: value })}
 						/>
+						<div
+							class="input-group-append"
+							onClick={e => onChange({ Id: original.Id, [id]: value })}
+							style={{ cursor: 'pointer' }}>
+							<span class="input-group-text" style={{ height: '40px' }}>
+								<i class="fas fa-save" />
+							</span>
+						</div>
 					</div>
 				);
 			}
