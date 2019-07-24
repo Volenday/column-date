@@ -16,6 +16,7 @@ export default props => {
 		onChange,
 		onChangeText,
 		style = {},
+		withTime = false,
 		...defaultProps
 	} = props;
 	let { defaultValue } = props;
@@ -57,7 +58,7 @@ export default props => {
 							id={id}
 							value={value}
 							onChange={(field, value) => onChangeText(index, field, value)}
-							withTime={true}
+							withTime={withTime}
 						/>
 						<div
 							class="input-group-append"
