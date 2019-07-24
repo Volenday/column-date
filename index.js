@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import InputDate from '@volenday/input-date';
-import { Calendar, DateRangePicker } from 'react-date-range';
-import { Pane, Popover } from 'evergreen-ui';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
+
+// antd
+import DatePicker from 'antd/es/date-picker';
+import 'antd/es/date-picker/style/css';
+
+import './styles.css';
 
 export default props => {
 	const {
 		editable = false,
 		fieldType,
-		filterType = 'date',
+		filterType = 'dateRange',
 		headerStyle = {},
 		id,
 		onChange,
@@ -40,7 +42,7 @@ export default props => {
 	if (typeof defaultValue == 'string') {
 		if (filterType == 'date') {
 			if (defaultValue) {
-				defaultValue = moment(defaultValue);
+				defaultValue = dayjs(defaultValue);
 			}
 		}
 	}
@@ -72,56 +74,13 @@ export default props => {
 				);
 			}
 
-			return <span>{moment(value).isValid() ? moment(value).format(momentFormat) : null}</span>;
+			return <span>{dayjs(value).isValid() ? dayjs(value).format(momentFormat) : null}</span>;
 		},
 		Filter: ({ onChange }) => {
-			if (filterType == 'date') {
-				return (
-					<Popover
-						content={() => (
-							<Pane width={332} height={343}>
-								<Calendar date={defaultValue} onChange={e => onChange(moment(e).toJSON())} />
-							</Pane>
-						)}>
-						{({ getRef, toggle }) => {
-							return (
-								<div class="input-group" ref={getRef} style={{ width: '100%' }}>
-									{defaultValue && (
-										<div
-											class="input-group-append"
-											onClick={e => onChange('')}
-											style={{ cursor: 'pointer' }}>
-											<span class="input-group-text">
-												<i class="fas fa-times" />
-											</span>
-										</div>
-									)}
-									<input
-										type="text"
-										class="form-control"
-										placeholder="Select Date"
-										readOnly
-										onClick={e => toggle()}
-										value={defaultValue ? defaultValue.format('YYYY/MM/DD') : ''}
-									/>
-									<div
-										class="input-group-append"
-										onClick={e => toggle()}
-										style={{ cursor: 'pointer' }}>
-										<span class="input-group-text">
-											<i class="fas fa-calendar-alt" />
-										</span>
-									</div>
-								</div>
-							);
-						}}
-					</Popover>
-				);
-			}
+			if (filterType == 'date')
+				return <DatePicker onChange={e => onChange(e ? e.toJSON() : '')} value={defaultValue} />;
 
-			if (filterType == 'dateRange') {
-				return <CustomDateRange defaultValue={defaultValue} filterType={filterType} onChange={onChange} />;
-			}
+			if (filterType == 'dateRange') return <CustomDateRange defaultValue={defaultValue} onChange={onChange} />;
 
 			return null;
 		}
@@ -129,24 +88,22 @@ export default props => {
 };
 
 class CustomDateRange extends Component {
-	state = { endDate: false, focusedRange: [0, 0], startDate: false };
+	state = { endDate: false, startDate: false };
 
 	render() {
-		const { endDate, focusedRange, startDate } = this.state;
+		const { endDate, startDate } = this.state;
 		let { defaultValue, onChange } = this.props;
 
 		if (defaultValue == '') {
 			defaultValue = {
-				startDate: startDate ? moment(startDate) : false,
-				endDate: endDate ? moment(endDate) : false,
-				key: 'selection'
+				startDate: startDate ? dayjs(startDate) : false,
+				endDate: endDate ? dayjs(endDate) : false
 			};
 		} else {
 			if (startDate || endDate) {
 				defaultValue = {
-					startDate: startDate ? moment(startDate) : false,
-					endDate: endDate ? moment(endDate) : false,
-					key: 'selection'
+					startDate: startDate ? dayjs(startDate) : false,
+					endDate: endDate ? dayjs(endDate) : false
 				};
 			}
 		}
@@ -157,73 +114,27 @@ class CustomDateRange extends Component {
 					defaultValueStartDate = defaultValueSplit[0],
 					defaultValueEndDate = defaultValueSplit[1];
 				defaultValue = {
-					startDate: moment(defaultValueStartDate),
-					endDate: moment(defaultValueEndDate),
-					key: 'selection'
+					startDate: dayjs(defaultValueStartDate),
+					endDate: dayjs(defaultValueEndDate)
 				};
 			}
 		}
 
 		return (
-			<Popover
-				content={() => (
-					<Pane width={560} height={345}>
-						<DateRangePicker
-							ranges={[defaultValue]}
-							onChange={async e => {
-								const startDate = moment(e.selection.startDate).toJSON(),
-									endDate = moment(e.selection.endDate).toJSON();
+			<DatePicker.RangePicker
+				onChange={async e => {
+					if (e.length == 0) return onChange('');
 
-								await this.setState({ endDate, startDate });
+					const [start, end] = e;
 
-								if (
-									(startDate != '' && endDate != '' && focusedRange[1] == 1) ||
-									(startDate != endDate && focusedRange[1] == 0)
-								) {
-									onChange(`${startDate}*${endDate}`);
-								}
-							}}
-							focusedRange={focusedRange}
-							onRangeFocusChange={e => this.setState({ focusedRange: e })}
-						/>
-					</Pane>
-				)}>
-				{({ getRef, toggle }) => {
-					return (
-						<div class="input-group" ref={getRef}>
-							{defaultValue.startDate && (
-								<div
-									class="input-group-append"
-									onClick={e => onChange('')}
-									style={{ cursor: 'pointer' }}>
-									<span class="input-group-text">
-										<i class="fa fa-times" aria-hidden="true" />
-									</span>
-								</div>
-							)}
-							<input
-								type="text"
-								class="form-control"
-								placeholder="Select Date Range"
-								readOnly
-								onClick={e => toggle()}
-								value={
-									defaultValue.startDate
-										? `${defaultValue.startDate.format(
-												'YYYY/MM/DD'
-										  )} - ${defaultValue.endDate.format('YYYY/MM/DD')}`
-										: ''
-								}
-							/>
-							<div class="input-group-append" onClick={e => toggle()} style={{ cursor: 'pointer' }}>
-								<span class="input-group-text">
-									<i class="fa fa-calendar" aria-hidden="true" />
-								</span>
-							</div>
-						</div>
-					);
+					const startDate = start.toJSON(),
+						endDate = end.toJSON();
+
+					await this.setState({ endDate, startDate });
+					onChange(`${startDate}*${endDate}`);
 				}}
-			</Popover>
+				value={[defaultValue.startDate, defaultValue.endDate]}
+			/>
 		);
 	}
 }
