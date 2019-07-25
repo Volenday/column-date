@@ -52,12 +52,11 @@ module.exports = {
 		libraryTarget: 'commonjs2'
 	},
 	externals: {
-		'@volenday/input-date': 'commonjs2 @volenday/input-date',
-		'evergreen-ui': 'commonjs2 evergreen-ui',
-		moment: 'commonjs2 moment',
 		react: 'commonjs2 react',
-		'react-date-range': 'commonjs2 react-date-range',
-		'react-dom': 'commonjs2 react-dom'
+		antd: 'commonjs2 antd',
+		'@volenday/input-date': 'commonjs2 @volenday/input-date',
+		'react-dom': 'commonjs2 react-dom',
+		'moment-timezone': 'commonjs2 moment-timezone'
 	},
 	plugins: [
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

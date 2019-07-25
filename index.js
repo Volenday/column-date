@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import dayjs from 'dayjs';
+import moment from 'moment-timezone';
 import InputDate from '@volenday/input-date';
 
 // antd
@@ -13,6 +13,7 @@ export default props => {
 		editable = false,
 		fieldType,
 		filterType = 'dateRange',
+		timezone = 'auto',
 		headerStyle = {},
 		id,
 		onChange,
@@ -42,7 +43,7 @@ export default props => {
 	if (typeof defaultValue == 'string') {
 		if (filterType == 'date') {
 			if (defaultValue) {
-				defaultValue = dayjs(defaultValue);
+				defaultValue = moment(defaultValue);
 			}
 		}
 	}
@@ -58,7 +59,15 @@ export default props => {
 						<InputDate
 							styles={{ minWidth: 0, flex: 1 }}
 							id={id}
-							value={value}
+							value={
+								timezone === 'auto'
+									? value
+									: moment(value)
+											.utc()
+											.tz(timezone)
+											.format(momentFormat)
+							}
+							timezone={timezone}
 							onChange={(field, value) => onChangeText(index, field, value)}
 							withTime={withTime}
 						/>
@@ -74,7 +83,18 @@ export default props => {
 				);
 			}
 
-			return <span>{dayjs(value).isValid() ? dayjs(value).format(momentFormat) : null}</span>;
+			return (
+				<span>
+					{moment(value).isValid()
+						? timezone === 'auto'
+							? moment(value).format(momentFormat)
+							: moment(value)
+									.utc()
+									.tz(timezone)
+									.format(momentFormat)
+						: null}
+				</span>
+			);
 		},
 		Filter: ({ onChange }) => {
 			if (filterType == 'date')
@@ -96,14 +116,14 @@ class CustomDateRange extends Component {
 
 		if (defaultValue == '') {
 			defaultValue = {
-				startDate: startDate ? dayjs(startDate) : false,
-				endDate: endDate ? dayjs(endDate) : false
+				startDate: startDate ? moment(startDate) : false,
+				endDate: endDate ? moment(endDate) : false
 			};
 		} else {
 			if (startDate || endDate) {
 				defaultValue = {
-					startDate: startDate ? dayjs(startDate) : false,
-					endDate: endDate ? dayjs(endDate) : false
+					startDate: startDate ? moment(startDate) : false,
+					endDate: endDate ? moment(endDate) : false
 				};
 			}
 		}
@@ -114,8 +134,8 @@ class CustomDateRange extends Component {
 					defaultValueStartDate = defaultValueSplit[0],
 					defaultValueEndDate = defaultValueSplit[1];
 				defaultValue = {
-					startDate: dayjs(defaultValueStartDate),
-					endDate: dayjs(defaultValueEndDate)
+					startDate: moment(defaultValueStartDate),
+					endDate: moment(defaultValueEndDate)
 				};
 			}
 		}
