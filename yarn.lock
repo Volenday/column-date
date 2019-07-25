@@ -1036,10 +1036,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@volenday/input-date@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@volenday/input-date/-/input-date-0.1.4.tgz#fbfc3253a4eb6d8035f0df684507382ffd95ed3c"
-  integrity sha512-2+OP18GzHMNigpIdDvMkxh7FSoGz1hKUu5TEFP0l1Bvsr7FDKfzfIze5zAzdb1kJ6z6wEHW6xF+/eKrLnXIXvg==
+"@volenday/input-date@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@volenday/input-date/-/input-date-0.1.5.tgz#e178bd2142e9f48ad45d569d03efef682faadccc"
+  integrity sha512-0eHPK8w1DiRCYPaOZs1N4vqIVNRsPgRKoUbyi6d0VYlq4I/BqBZR1tFCosEIe7xDQehoDeadZKkNdB7iHVT/fw==
   dependencies:
     antd "~3.20.5"
     moment-timezone "^0.5.26"
