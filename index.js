@@ -19,7 +19,6 @@ export default props => {
 		onChange,
 		onChangeText,
 		style = {},
-		withTime = false,
 		...defaultProps
 	} = props;
 	let { defaultValue } = props;
@@ -69,7 +68,7 @@ export default props => {
 							}
 							timezone={timezone}
 							onChange={(field, value) => onChangeText(index, field, value)}
-							withTime={withTime}
+							withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
 						/>
 						<div
 							class="input-group-append"
