@@ -1,6 +1,6 @@
 {
 	"name": "@volenday/column-date",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"private": false,
 	"license": "MIT",
 	"author": "Jerome Miranda <jerome.m.miranda@gmail.com>",
@@ -17,7 +17,7 @@
 		"react": "~16.9.0"
 	},
 	"dependencies": {
-		"@volenday/input-date": "~0.1.12",
+		"@volenday/input-date": "^0.1.20",
 		"antd": "~3.22.0",
 		"moment-timezone": "^0.5.26",
 		"react": "~16.9.0",

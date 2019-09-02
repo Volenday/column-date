@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment-timezone';
 import InputDate from '@volenday/input-date';
 
 // antd
+import Button from 'antd/es/button';
 import DatePicker from 'antd/es/date-picker';
+
+// antd css
+import 'antd/es/button/style/css';
 import 'antd/es/date-picker/style/css';
 
 import './styles.css';
@@ -19,6 +23,7 @@ export default props => {
 		onChange,
 		onChangeText,
 		style = {},
+		width,
 		...defaultProps
 	} = props;
 	let { defaultValue } = props;
@@ -49,14 +54,15 @@ export default props => {
 
 	return {
 		...defaultProps,
-		style: { ...style, display: 'flex', alignItems: 'center' },
-		headerStyle: { ...headerStyle, display: 'flex', alignItems: 'center' },
+		style: { ...style, alignItems: 'center' },
+		headerStyle: { ...headerStyle, alignItems: 'center' },
 		Cell: ({ index, original, value }) => {
 			if (editable) {
 				return (
-					<div class="input-group" style={{ display: 'flex' }}>
+					<Fragment>
 						<InputDate
-							styles={{ minWidth: 0, flex: 1 }}
+							styles={{ width: '90%' }}
+							validation={validation}
 							id={id}
 							value={
 								timezone === 'auto'
@@ -70,15 +76,10 @@ export default props => {
 							onChange={(field, value) => onChangeText(index, field, value)}
 							withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
 						/>
-						<div
-							class="input-group-append"
-							onClick={e => onChange({ Id: original.Id, [id]: value })}
-							style={{ cursor: 'pointer' }}>
-							<span class="input-group-text" style={{ height: '40px' }}>
-								<i class="fas fa-save" />
-							</span>
-						</div>
-					</div>
+						<Button style={{ width: '10%' }} onClick={e => onChange({ Id: original.Id, [id]: value })}>
+							<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
+						</Button>
+					</Fragment>
 				);
 			}
 
