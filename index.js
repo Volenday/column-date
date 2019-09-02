@@ -62,7 +62,6 @@ export default props => {
 					<Fragment>
 						<InputDate
 							styles={{ width: '90%' }}
-							validation={validation}
 							id={id}
 							value={
 								timezone === 'auto'
