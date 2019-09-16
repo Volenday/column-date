@@ -3,10 +3,7 @@ import moment from 'moment-timezone';
 import InputDate from '@volenday/input-date';
 
 // antd
-import Button from 'antd/es/button';
-import DatePicker from 'antd/es/date-picker';
-
-// antd css
+import { Button, DatePicker } from 'antd';
 import 'antd/es/button/style/css';
 import 'antd/es/date-picker/style/css';
 
@@ -61,7 +58,7 @@ export default props => {
 				return (
 					<Fragment>
 						<InputDate
-							styles={{ width: '90%' }}
+							styles={{ width: '88%' }}
 							id={id}
 							value={
 								timezone === 'auto'
