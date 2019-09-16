@@ -58,7 +58,7 @@ export default props => {
 				return (
 					<Fragment>
 						<InputDate
-							styles={{ width: '88%' }}
+							styles={{ minWidth: '86%', width: '90%' }}
 							id={id}
 							value={
 								timezone === 'auto'
