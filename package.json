@@ -1,6 +1,6 @@
 {
 	"name": "@volenday/column-date",
-	"version": "0.1.13",
+	"version": "0.1.14",
 	"private": false,
 	"license": "MIT",
 	"author": "Jerome Miranda <jerome.m.miranda@gmail.com>",
@@ -11,14 +11,16 @@
 	},
 	"main": "dist/index.min.js",
 	"peerDependencies": {
-		"@volenday/input-date": "~0.1.22",
-		"antd": "~3.23.2",
+		"@volenday/input-date": "~0.1.26",
+		"antd": "~3.23.3",
+		"formik": "~1.5.8",
 		"moment-timezone": "^0.5.26",
 		"react": "~16.9.0"
 	},
 	"dependencies": {
-		"@volenday/input-date": "~0.1.22",
-		"antd": "~3.23.2",
+		"@volenday/input-date": "~0.1.26",
+		"antd": "~3.23.3",
+		"formik": "~1.5.8",
 		"moment-timezone": "^0.5.26",
 		"react": "~16.9.0",
 		"webpack": "~4.40.2"
@@ -53,6 +55,6 @@
 		"node-sass": "~4.12.0",
 		"sass-loader": "~8.0.0",
 		"style-loader": "~1.0.0",
-		"webpack-cli": "~3.3.8"
+		"webpack-cli": "~3.3.9"
 	}
 }

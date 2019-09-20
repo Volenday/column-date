@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment-timezone';
 import InputDate from '@volenday/input-date';
+import { Formik } from 'formik';
 
 // antd
 import { Button, DatePicker } from 'antd';
@@ -53,29 +54,38 @@ export default props => {
 		...defaultProps,
 		style: { ...style, alignItems: 'center' },
 		headerStyle: { ...headerStyle, alignItems: 'center' },
-		Cell: ({ index, original, value }) => {
+		Cell: ({ original, value }) => {
 			if (editable) {
 				return (
-					<Fragment>
-						<InputDate
-							styles={{ minWidth: '86%', width: '90%' }}
-							id={id}
-							value={
-								timezone === 'auto'
-									? value
-									: moment(value)
-											.utc()
-											.tz(timezone)
-											.format(momentFormat)
-							}
-							timezone={timezone}
-							onChange={(field, value) => onChangeText(index, field, value)}
-							withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
-						/>
-						<Button style={{ width: '10%' }} onClick={e => onChange({ Id: original.Id, [id]: value })}>
-							<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
-						</Button>
-					</Fragment>
+					<Formik
+						enableReinitialize={true}
+						initialValues={{ [id]: value }}
+						onSubmit={values => onChange({ ...values, Id: original.Id })}
+						validateOnBlur={false}
+						validateOnChange={false}
+						render={({ handleChange, submitForm, values }) => (
+							<Fragment>
+								<InputDate
+									id={id}
+									value={
+										timezone === 'auto'
+											? values[id]
+											: moment(values[id])
+													.utc()
+													.tz(timezone)
+													.format(momentFormat)
+									}
+									timezone={timezone}
+									onChange={handleChange}
+									styles={{ minWidth: '86%', width: '90%' }}
+									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
+								/>
+								<Button style={{ width: '10%' }} onClick={submitForm}>
+									<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
+								</Button>
+							</Fragment>
+						)}
+					/>
 				);
 			}
 

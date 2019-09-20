@@ -55,6 +55,7 @@ module.exports = {
 		react: 'commonjs2 react',
 		antd: 'commonjs2 antd',
 		'@volenday/input-date': 'commonjs2 @volenday/input-date',
+		formik: 'commonjs2 formik',
 		'react-dom': 'commonjs2 react-dom',
 		'moment-timezone': 'commonjs2 moment-timezone'
 	},
