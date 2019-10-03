@@ -1,6 +1,6 @@
 {
 	"name": "@volenday/column-date",
-	"version": "0.1.14",
+	"version": "0.1.15",
 	"private": false,
 	"license": "MIT",
 	"author": "Jerome Miranda <jerome.m.miranda@gmail.com>",
@@ -11,22 +11,22 @@
 	},
 	"main": "dist/index.min.js",
 	"peerDependencies": {
-		"@volenday/input-date": "~0.1.26",
-		"antd": "~3.23.3",
+		"@volenday/input-date": "~0.1.27",
+		"antd": "~3.23.5",
 		"formik": "~1.5.8",
 		"moment-timezone": "^0.5.26",
-		"react": "~16.9.0"
+		"react": "~16.10.1"
 	},
 	"dependencies": {
-		"@volenday/input-date": "~0.1.26",
-		"antd": "~3.23.3",
+		"@volenday/input-date": "~0.1.27",
+		"antd": "~3.23.5",
 		"formik": "~1.5.8",
 		"moment-timezone": "^0.5.26",
-		"react": "~16.9.0",
-		"webpack": "~4.40.2"
+		"react": "~16.10.1",
+		"webpack": "~4.41.0"
 	},
 	"devDependencies": {
-		"@babel/core": "~7.6.0",
+		"@babel/core": "~7.6.2",
 		"@babel/plugin-proposal-class-properties": "~7.5.5",
 		"@babel/plugin-proposal-decorators": "~7.6.0",
 		"@babel/plugin-proposal-do-expressions": "~7.6.0",
@@ -44,9 +44,9 @@
 		"@babel/plugin-syntax-dynamic-import": "~7.2.0",
 		"@babel/plugin-syntax-import-meta": "~7.2.0",
 		"@babel/plugin-transform-async-to-generator": "~7.5.0",
-		"@babel/preset-env": "~7.6.0",
+		"@babel/preset-env": "~7.6.2",
 		"@babel/preset-react": "^7.0.0",
-		"@babel/runtime": "~7.6.0",
+		"@babel/runtime": "~7.6.2",
 		"babel-loader": "~8.0.6",
 		"babel-plugin-react-html-attrs": "^2.1.0",
 		"core-js": "~3.2.1",
