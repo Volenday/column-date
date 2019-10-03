@@ -49,13 +49,13 @@ export default props => {
 			}
 		}
 	}
-	console.log('style: ', style);
-	console.log('headerStyle: ', headerStyle);
+
 	return {
 		...defaultProps,
-		width: 300,
-		style: { ...style, alignItems: 'center', display: 'flex', justifyContent: 'flex-start' },
 		headerStyle: { ...headerStyle, alignItems: 'center' },
+		minWidth: 250,
+		style: { ...style, alignItems: 'center', display: 'flex', justifyContent: 'flex-start' },
+		width,
 		Cell: ({ original, value }) => {
 			if (editable) {
 				return (
