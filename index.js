@@ -52,8 +52,10 @@ export default props => {
 
 	return {
 		...defaultProps,
-		style: { ...style, alignItems: 'center' },
 		headerStyle: { ...headerStyle, alignItems: 'center' },
+		minWidth: 250,
+		style: { ...style, alignItems: 'center', display: 'flex', justifyContent: 'flex-start' },
+		width,
 		Cell: ({ original, value }) => {
 			if (editable) {
 				return (
