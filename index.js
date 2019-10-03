@@ -49,10 +49,12 @@ export default props => {
 			}
 		}
 	}
-
+	console.log('style: ', style);
+	console.log('headerStyle: ', headerStyle);
 	return {
 		...defaultProps,
-		style: { ...style, alignItems: 'center' },
+		width: 300,
+		style: { ...style, alignItems: 'center', display: 'flex', justifyContent: 'flex-start' },
 		headerStyle: { ...headerStyle, alignItems: 'center' },
 		Cell: ({ original, value }) => {
 			if (editable) {
