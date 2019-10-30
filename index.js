@@ -63,27 +63,28 @@ export default props => {
 						onSubmit={values => onChange({ ...values, Id: original.Id })}
 						validateOnBlur={false}
 						validateOnChange={false}>
-						{(handleChange, submitForm, values)}) => (
-						<Fragment>
-							<InputDate
-								id={id}
-								value={
-									timezone === 'auto'
-										? values[id]
-										: moment(values[id])
-												.utc()
-												.tz(timezone)
-												.format(momentFormat)
-								}
-								timezone={timezone}
-								onChange={handleChange}
-								styles={{ minWidth: '86%', width: '90%' }}
-								withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
-							/>
-							<Button style={{ width: '10%' }} onClick={submitForm}>
-								<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
-							</Button>
-						</Fragment>
+						{({ handleChange, submitForm, values }) => (
+							<Fragment>
+								<InputDate
+									id={id}
+									value={
+										timezone === 'auto'
+											? values[id]
+											: moment(values[id])
+													.utc()
+													.tz(timezone)
+													.format(momentFormat)
+									}
+									timezone={timezone}
+									onChange={handleChange}
+									styles={{ minWidth: '86%', width: '90%' }}
+									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
+								/>
+								<Button style={{ width: '10%' }} onClick={submitForm}>
+									<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
+								</Button>
+							</Fragment>
+						)}
 					</Formik>
 				);
 			}
