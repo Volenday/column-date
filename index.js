@@ -2,11 +2,7 @@ import React, { Component, Fragment } from 'react';
 import moment from 'moment-timezone';
 import InputDate from '@volenday/input-date';
 import { Formik } from 'formik';
-
-// antd
 import { Button, DatePicker } from 'antd';
-import 'antd/es/button/style/css';
-import 'antd/es/date-picker/style/css';
 
 import './styles.css';
 
@@ -57,6 +53,8 @@ export default props => {
 		style: { ...style, alignItems: 'center', display: 'flex', justifyContent: 'flex-start' },
 		width,
 		Cell: ({ original, value }) => {
+			if (typeof value == 'undefined') return null;
+
 			if (editable) {
 				return (
 					<Formik
@@ -64,30 +62,29 @@ export default props => {
 						initialValues={{ [id]: value }}
 						onSubmit={values => onChange({ ...values, Id: original.Id })}
 						validateOnBlur={false}
-						validateOnChange={false}
-						render={({ handleChange, submitForm, values }) => (
-							<Fragment>
-								<InputDate
-									id={id}
-									value={
-										timezone === 'auto'
-											? values[id]
-											: moment(values[id])
-													.utc()
-													.tz(timezone)
-													.format(momentFormat)
-									}
-									timezone={timezone}
-									onChange={handleChange}
-									styles={{ minWidth: '86%', width: '90%' }}
-									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
-								/>
-								<Button style={{ width: '10%' }} onClick={submitForm}>
-									<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
-								</Button>
-							</Fragment>
-						)}
-					/>
+						validateOnChange={false}>
+						{(handleChange, submitForm, values)}) => (
+						<Fragment>
+							<InputDate
+								id={id}
+								value={
+									timezone === 'auto'
+										? values[id]
+										: moment(values[id])
+												.utc()
+												.tz(timezone)
+												.format(momentFormat)
+								}
+								timezone={timezone}
+								onChange={handleChange}
+								styles={{ minWidth: '86%', width: '90%' }}
+								withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
+							/>
+							<Button style={{ width: '10%' }} onClick={submitForm}>
+								<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
+							</Button>
+						</Fragment>
+					</Formik>
 				);
 			}
 
