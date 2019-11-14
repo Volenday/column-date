@@ -15,7 +15,6 @@ export default props => {
 		headerStyle = {},
 		id,
 		onChange,
-		onChangeText,
 		style = {},
 		width,
 		...defaultProps
