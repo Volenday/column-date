@@ -70,7 +70,7 @@ export default props => {
 										? values[id]
 										: moment(values[id]).utc().tz(timezone).format(momentFormat)
 								}
-								onSubmit={submitForm}
+								onOk={submitForm}
 								timezone={timezone}
 								onChange={handleChange}
 								styles={{ width: '100%' }}
