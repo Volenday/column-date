@@ -69,19 +69,17 @@ export default props => {
 									value={
 										timezone === 'auto'
 											? values[id]
-											: moment(values[id])
-													.utc()
-													.tz(timezone)
-													.format(momentFormat)
+											: moment(values[id]).utc().tz(timezone).format(momentFormat)
 									}
+									onSubmit={submitForm}
 									timezone={timezone}
 									onChange={handleChange}
 									styles={{ minWidth: '86%', width: '90%' }}
 									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
 								/>
-								<Button style={{ width: '10%' }} onClick={submitForm}>
+								{/* <Button style={{ width: '10%' }} onClick={submitForm}>
 									<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
-								</Button>
+								</Button> */}
 							</Fragment>
 						)}
 					</Formik>
@@ -93,10 +91,7 @@ export default props => {
 					{moment(value).isValid()
 						? timezone === 'auto'
 							? moment(value).format(momentFormat)
-							: moment(value)
-									.utc()
-									.tz(timezone)
-									.format(momentFormat)
+							: moment(value).utc().tz(timezone).format(momentFormat)
 						: null}
 				</span>
 			);
