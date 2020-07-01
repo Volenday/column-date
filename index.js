@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment-timezone';
 import InputDate from '@volenday/input-date';
 import { Formik } from 'formik';
@@ -63,24 +63,19 @@ export default props => {
 						validateOnBlur={false}
 						validateOnChange={false}>
 						{({ handleChange, submitForm, values }) => (
-							<Fragment>
-								<InputDate
-									id={id}
-									value={
-										timezone === 'auto'
-											? values[id]
-											: moment(values[id]).utc().tz(timezone).format(momentFormat)
-									}
-									onSubmit={submitForm}
-									timezone={timezone}
-									onChange={handleChange}
-									styles={{ minWidth: '86%', width: '90%' }}
-									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
-								/>
-								{/* <Button style={{ width: '10%' }} onClick={submitForm}>
-									<i style={{ marginLeft: '-5px' }} class="fas fa-save"></i>
-								</Button> */}
-							</Fragment>
+							<InputDate
+								id={id}
+								value={
+									timezone === 'auto'
+										? values[id]
+										: moment(values[id]).utc().tz(timezone).format(momentFormat)
+								}
+								onSubmit={submitForm}
+								timezone={timezone}
+								onChange={handleChange}
+								styles={{ width: '100%' }}
+								withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
+							/>
 						)}
 					</Formik>
 				);
