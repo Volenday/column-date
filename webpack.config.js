@@ -53,12 +53,11 @@ module.exports = {
 		libraryTarget: 'commonjs2'
 	},
 	externals: {
-		react: 'react',
-		antd: 'antd',
 		'@volenday/input-date': '@volenday/input-date',
+		antd: 'antd',
 		formik: 'formik',
-		'react-dom': 'react-dom',
-		'moment-timezone': 'moment-timezone'
+		'moment-timezone': 'moment-timezone',
+		react: 'react'
 	},
 	plugins: [
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
