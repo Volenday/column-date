@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment-timezone';
 import InputDate from '@volenday/input-date';
 import { Formik } from 'formik';
-import { Button, DatePicker } from 'antd';
+import { DatePicker } from 'antd';
 
 import './styles.css';
 
@@ -12,20 +12,11 @@ export default props => {
 		fieldType,
 		filterType = 'dateRange',
 		timezone = 'auto',
-		headerStyle = {},
 		id,
 		onChange,
-		style = {},
 		width,
 		...defaultProps
 	} = props;
-	let { defaultValue } = props;
-
-	if (defaultValue == '') {
-		if (filterType == 'date') {
-			defaultValue = null;
-		}
-	}
 
 	let momentFormat = 'MMMM DD, YYYY';
 	switch (fieldType) {
@@ -37,21 +28,11 @@ export default props => {
 			break;
 	}
 
-	if (typeof defaultValue == 'string') {
-		if (filterType == 'date') {
-			if (defaultValue) {
-				defaultValue = moment(defaultValue);
-			}
-		}
-	}
-
 	return {
 		...defaultProps,
-		headerStyle: { ...headerStyle, alignItems: 'center' },
 		minWidth: 250,
-		style: { ...style, alignItems: 'center', display: 'flex', justifyContent: 'flex-start' },
 		width,
-		Cell: ({ original, value }) => {
+		Cell: ({ row, value }) => {
 			if (typeof value == 'undefined') return null;
 
 			if (editable) {
@@ -59,7 +40,7 @@ export default props => {
 					<Formik
 						enableReinitialize={true}
 						initialValues={{ [id]: value }}
-						onSubmit={values => onChange({ ...values, Id: original.Id })}
+						onSubmit={values => onChange({ ...values, Id: row.Id })}
 						validateOnBlur={false}
 						validateOnChange={false}>
 						{({ handleChange, submitForm, values }) => (
@@ -91,11 +72,21 @@ export default props => {
 				</span>
 			);
 		},
-		Filter: ({ onChange }) => {
-			if (filterType == 'date')
-				return <DatePicker onChange={e => onChange(e ? e.toJSON() : '')} value={defaultValue} />;
+		Filter: ({ column: { filterValue = '', setFilter } }) => {
+			if (filterValue === '') {
+				if (filterType == 'date') filterValue = null;
+			}
 
-			if (filterType == 'dateRange') return <CustomDateRange defaultValue={defaultValue} onChange={onChange} />;
+			if (typeof filterValue === 'string') {
+				if (filterType === 'date') {
+					if (filterValue) filterValue = moment(filterValue);
+				}
+			}
+
+			if (filterType == 'date')
+				return <DatePicker onChange={e => setFilter(e ? e.toJSON() : '')} value={filterValue} />;
+
+			if (filterType == 'dateRange') return <CustomDateRange value={filterValue} setFilter={setFilter} />;
 
 			return null;
 		}
@@ -107,30 +98,29 @@ class CustomDateRange extends Component {
 
 	render() {
 		const { endDate, startDate } = this.state;
-		let { defaultValue, onChange } = this.props;
+		let { setFilter, value } = this.props;
 
-		if (defaultValue == '') {
-			defaultValue = {
+		if (value === '') {
+			value = {
 				startDate: startDate ? moment(startDate) : false,
 				endDate: endDate ? moment(endDate) : false
 			};
 		} else {
-			if (startDate || endDate) {
-				defaultValue = {
+			if (startDate || endDate)
+				value = {
 					startDate: startDate ? moment(startDate) : false,
 					endDate: endDate ? moment(endDate) : false
 				};
-			}
 		}
 
-		if (typeof defaultValue == 'string') {
-			if (defaultValue.includes('*')) {
-				const defaultValueSplit = defaultValue.split('*'),
-					defaultValueStartDate = defaultValueSplit[0],
-					defaultValueEndDate = defaultValueSplit[1];
-				defaultValue = {
-					startDate: moment(defaultValueStartDate),
-					endDate: moment(defaultValueEndDate)
+		if (typeof value === 'string') {
+			if (value.includes('*')) {
+				const valueSplit = value.split('*'),
+					valueStartDate = valueSplit[0],
+					valueEndDate = valueSplit[1];
+				value = {
+					startDate: moment(valueStartDate),
+					endDate: moment(valueEndDate)
 				};
 			}
 		}
@@ -138,17 +128,16 @@ class CustomDateRange extends Component {
 		return (
 			<DatePicker.RangePicker
 				onChange={async e => {
-					if (e.length == 0) return onChange('');
+					if (e.length === 0) return setFilter('');
 
 					const [start, end] = e;
-
 					const startDate = start.toJSON(),
 						endDate = end.toJSON();
 
 					await this.setState({ endDate, startDate });
-					onChange(`${startDate}*${endDate}`);
+					setFilter(`${startDate}*${endDate}`);
 				}}
-				value={[defaultValue.startDate, defaultValue.endDate]}
+				value={[value.startDate, value.endDate]}
 			/>
 		);
 	}
