@@ -55,9 +55,9 @@ module.exports = {
 	externals: {
 		'@volenday/input-date': '@volenday/input-date',
 		antd: 'antd',
-		formik: 'formik',
 		'moment-timezone': 'moment-timezone',
-		react: 'react'
+		react: 'react',
+		'react-hook-form': 'react-hook-form'
 	},
 	plugins: [
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
