@@ -47,7 +47,7 @@ export default ({
 };
 
 const Cell = memo(
-	({ other: { editable, fieldType, id, momentFormat, onChange, styles, timezone }, row: { original } }, value) => {
+	({ other: { editable, fieldType, id, momentFormat, onChange, styles, timezone }, row: { original }, value }) => {
 		if (typeof value == 'undefined') return null;
 
 		if (editable) {
@@ -79,10 +79,7 @@ const Cell = memo(
 									value={
 										timezone === 'auto'
 											? value
-											: moment(value)
-													.utc()
-													.tz(timezone)
-													.format(momentFormat)
+											: moment(value).utc().tz(timezone).format(momentFormat)
 									}
 									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
 								/>
@@ -98,10 +95,7 @@ const Cell = memo(
 				{moment(value).isValid()
 					? timezone === 'auto'
 						? moment(value).format(momentFormat)
-						: moment(value)
-								.utc()
-								.tz(timezone)
-								.format(momentFormat)
+						: moment(value).utc().tz(timezone).format(momentFormat)
 					: null}
 			</span>
 		);
