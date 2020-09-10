@@ -52,6 +52,7 @@ const Cell = memo(
 
 		if (editable) {
 			const formRef = useRef();
+			const originalValue = value;
 			const { control, handleSubmit } = useForm({ defaultValues: { [id]: value } });
 
 			const submit = data => onChange({ ...data, Id: original.Id });
@@ -67,9 +68,11 @@ const Cell = memo(
 									id={name}
 									onChange={e => {
 										onChange(e.target.value);
-										formRef.current.dispatchEvent(new Event('submit', { cancelable: true }));
+										originalValue !== value &&
+											formRef.current.dispatchEvent(new Event('submit', { cancelable: true }));
 									}}
 									onOk={() =>
+										originalValue !== value &&
 										formRef.current.dispatchEvent(new Event('submit', { cancelable: true }))
 									}
 									styles={styles}
@@ -77,7 +80,10 @@ const Cell = memo(
 									value={
 										timezone === 'auto'
 											? value
-											: moment(value).utc().tz(timezone).format(momentFormat)
+											: moment(value)
+													.utc()
+													.tz(timezone)
+													.format(momentFormat)
 									}
 									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
 								/>
@@ -93,7 +99,10 @@ const Cell = memo(
 				{moment(value).isValid()
 					? timezone === 'auto'
 						? moment(value).format(momentFormat)
-						: moment(value).utc().tz(timezone).format(momentFormat)
+						: moment(value)
+								.utc()
+								.tz(timezone)
+								.format(momentFormat)
 					: null}
 			</span>
 		);
