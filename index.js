@@ -58,7 +58,7 @@ const Cell = memo(
 			const submit = data => onChange({ ...data, Id: original.Id });
 
 			return (
-				<form onSubmit={handleSubmit(submit)} ref={formRef}>
+				<form onSubmit={handleSubmit(submit)} ref={formRef} style={styles}>
 					<Controller
 						control={control}
 						name={id}
@@ -75,7 +75,6 @@ const Cell = memo(
 										originalValue !== value &&
 										formRef.current.dispatchEvent(new Event('submit', { cancelable: true }))
 									}
-									styles={styles}
 									timezone={timezone}
 									value={
 										timezone === 'auto'
