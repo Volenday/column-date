@@ -1,10 +1,10 @@
 import React, { memo, Suspense, useRef, useState } from 'react';
 import moment from 'moment-timezone';
-import InputDate from '@volenday/input-date';
-import { Controller, useForm } from 'react-hook-form';
 import { DatePicker, Skeleton } from 'antd';
 
 import './styles.css';
+
+const browser = typeof process.browser !== 'undefined' ? process.browser : true;
 
 export default ({
 	editable = false,
@@ -30,19 +30,21 @@ export default ({
 		...defaultProps,
 		minWidth: 250,
 		width,
-		Cell: props => (
-			<Suspense fallback={<Skeleton active={true} paragraph={null} />}>
-				<Cell
-					{...props}
-					other={{ editable, fieldType, id, momentFormat, onChange, styles: { width: '100%' }, timezone }}
-				/>
-			</Suspense>
-		),
-		Filter: props => (
-			<Suspense fallback={<Skeleton active={true} paragraph={null} />}>
-				<Filter {...props} other={{ filterType }} />
-			</Suspense>
-		)
+		Cell: props =>
+			browser ? (
+				<Suspense fallback={<Skeleton active={true} paragraph={null} />}>
+					<Cell
+						{...props}
+						other={{ editable, fieldType, id, momentFormat, onChange, styles: { width: '100%' }, timezone }}
+					/>
+				</Suspense>
+			) : null,
+		Filter: props =>
+			browser ? (
+				<Suspense fallback={<Skeleton active={true} paragraph={null} />}>
+					<Filter {...props} other={{ filterType }} />
+				</Suspense>
+			) : null
 	};
 };
 
@@ -51,6 +53,8 @@ const Cell = memo(
 		if (typeof value == 'undefined') return null;
 
 		if (editable) {
+			const { Controller, useForm } = require('react-hook-form');
+			const InputDate = require('@volenday/input-date').default;
 			const formRef = useRef();
 			const originalValue = value;
 			const { control, handleSubmit } = useForm({ defaultValues: { [id]: value } });
