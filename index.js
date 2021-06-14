@@ -1,8 +1,10 @@
 import React, { memo, Suspense, useRef, useState } from 'react';
 import moment from 'moment-timezone';
-import { DatePicker, Skeleton } from 'antd';
+import { Skeleton } from 'antd';
 
 import './styles.css';
+
+import Filter from './filter';
 
 const browser = typeof process.browser !== 'undefined' ? process.browser : true;
 
@@ -12,6 +14,7 @@ export default ({
 	filterType = 'dateRange',
 	timezone = 'auto',
 	id,
+	list = [],
 	onChange,
 	width,
 	...defaultProps
@@ -42,7 +45,7 @@ export default ({
 		Filter: props =>
 			browser ? (
 				<Suspense fallback={<Skeleton active={true} paragraph={null} />}>
-					<Filter {...props} other={{ filterType }} />
+					<Filter {...props} id={id} list={list} />
 				</Suspense>
 			) : null
 	};
@@ -105,68 +108,3 @@ const Cell = memo(
 		);
 	}
 );
-
-const CustomDateRange = memo(({ setFilter, value }) => {
-	const [endDate, setEndDate] = useState(false);
-	const [startDate, setStartDate] = useState(false);
-
-	if (value === '') {
-		value = {
-			startDate: startDate ? moment(startDate) : false,
-			endDate: endDate ? moment(endDate) : false
-		};
-	} else {
-		if (startDate || endDate)
-			value = {
-				startDate: startDate ? moment(startDate) : false,
-				endDate: endDate ? moment(endDate) : false
-			};
-	}
-
-	if (typeof value === 'string') {
-		if (value.includes('*')) {
-			const valueSplit = value.split('*'),
-				valueStartDate = valueSplit[0],
-				valueEndDate = valueSplit[1];
-			value = {
-				startDate: moment(valueStartDate),
-				endDate: moment(valueEndDate)
-			};
-		}
-	}
-
-	return (
-		<DatePicker.RangePicker
-			onChange={async e => {
-				if (e.length === 0) return setFilter('');
-
-				const [start, end] = e;
-				const sd = start.toJSON(),
-					ed = end.toJSON();
-
-				setEndDate(ed);
-				setStartDate(sd);
-				setFilter(`${sd}*${ed}`);
-			}}
-			value={[value.startDate, value.endDate]}
-		/>
-	);
-});
-
-const Filter = memo(({ column: { filterValue = '', setFilter }, other: { filterType } }) => {
-	if (filterValue === '') {
-		if (filterType == 'date') filterValue = null;
-	}
-
-	if (typeof filterValue === 'string') {
-		if (filterType === 'date') {
-			if (filterValue) filterValue = moment(filterValue);
-		}
-	}
-
-	if (filterType == 'date') return <DatePicker onChange={e => setFilter(e ? e.toJSON() : '')} value={filterValue} />;
-
-	if (filterType == 'dateRange') return <CustomDateRange value={filterValue} setFilter={setFilter} />;
-
-	return null;
-});

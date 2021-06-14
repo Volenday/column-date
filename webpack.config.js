@@ -55,6 +55,7 @@ module.exports = {
 	externals: {
 		'@volenday/input-date': '@volenday/input-date',
 		antd: 'antd',
+		'@ant-design/icons': '@ant-design/icons',
 		'moment-timezone': 'moment-timezone',
 		react: 'react',
 		'react-hook-form': 'react-hook-form'
