@@ -3,23 +3,29 @@ import { Button, Checkbox, Divider, Input, List, Popover } from 'antd';
 import { FilterFilled, FilterOutlined } from '@ant-design/icons';
 
 const Filter = ({ column, id, list, setFilter }) => {
+	const newList = [{ label: '(Blank)', value: '' }, ...list];
 	const [selected, setSelected] = useState([]);
-	const [newOptions, setNewOptions] = useState(list);
+	const [newOptions, setNewOptions] = useState(newList);
 	const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 	const [sort, setSort] = useState('');
 
 	const withFilterValue = column.filterValue ? (column.filterValue.length !== 0 ? true : false) : false;
 
 	useEffect(() => {
-		if (!!column.filterValue) setSelected(list.filter(d => column.filterValue.includes(d.value)).map(d => d.label));
+		if (!!column.filterValue)
+			setSelected(newList.filter(d => column.filterValue.includes(d.value)).map(d => d.label));
 	}, [JSON.stringify(column.filterValue)]);
+
+
 	useEffect(() => {
 		setSort(column.isSorted ? (column.isSortedDesc ? 'DESC' : 'ASC') : '');
 	}, [column.isSorted, column.isSortedDesc]);
+
 	const selectItem = value => {
 		if (selected.includes(value)) setSelected(selected.filter(d => d !== value));
 		else setSelected([...selected, value]);
 	};
+
 	const renderItem = item => {
 		return (
 			<List.Item style={{ cursor: 'pointer', padding: '5px 0px' }}>
@@ -32,18 +38,21 @@ const Filter = ({ column, id, list, setFilter }) => {
 			</List.Item>
 		);
 	};
+
 	const renderCount = () => {
 		if (!column.filterValue) return null;
 		if (!Array.isArray(column.filterValue)) return null;
 		if (column.filterValue.length === 0) return null;
 		return <span>({column.filterValue.length})</span>;
 	};
+
 	const handleSearch = value => {
 		if (value === '') return setNewOptions(list);
 		setNewOptions(list.filter(d => d.label.match(new RegExp(value, 'i'))));
 	};
+
 	const onOk = () => {
-		const selectedFilter = list.filter(d => selected.includes(d.label));
+		const selectedFilter = newList.filter(d => selected.includes(d.label));
 		setFilter(
 			id,
 			selectedFilter.map(d => d.value)
@@ -51,6 +60,7 @@ const Filter = ({ column, id, list, setFilter }) => {
 		if (sort) column.toggleSortBy(sort === 'ASC' ? true : sort === 'DESC' ? false : '');
 		else column.clearSortBy();
 	};
+
 	const renderPopoverContent = () => {
 		const a2zType = sort === 'ASC' ? 'primary' : 'default',
 			z2aType = sort === 'DESC' ? 'primary' : 'default';
@@ -112,6 +122,7 @@ const Filter = ({ column, id, list, setFilter }) => {
 	};
 	const openPopover = () => setIsPopoverVisible(true);
 	const closePopover = () => setIsPopoverVisible(false);
+
 	return (
 		<Popover content={renderPopoverContent} trigger="click" visible={isPopoverVisible}>
 			{withFilterValue ? (
