@@ -1,6 +1,6 @@
 {
 	"name": "@volenday/column-date",
-	"version": "3.1.6",
+	"version": "3.1.7",
 	"private": false,
 	"license": "MIT",
 	"author": "Jerome Miranda <jerome.m.miranda@gmail.com>",
@@ -11,11 +11,12 @@
 	},
 	"main": "dist/index.min.js",
 	"peerDependencies": {
-		"@volenday/input-date": "^2.1.1",
-		"antd": "^4.8.5",
-		"moment-timezone": "^0.5.31",
-		"react": "^17.0.1",
-		"react-dom": "^17.0.1"
+		"@ant-design/icons": "^4.6.2",
+		"@volenday/input-date": "^2.2.1",
+		"antd": "^4.16.3",
+		"moment-timezone": "^0.5.33",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.9",
