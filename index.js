@@ -84,9 +84,12 @@ const Cell = memo(
 									}
 									timezone={timezone}
 									value={
-										timezone === 'auto'
+										timezone === 'auto' || timezone === 'off'
 											? value
-											: moment(value).utc().tz(timezone).format(momentFormat)
+											: moment(value)
+													.utc()
+													.tz(timezone)
+													.format(momentFormat)
 									}
 									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
 								/>
@@ -100,9 +103,12 @@ const Cell = memo(
 		return (
 			<span>
 				{moment(value).isValid()
-					? timezone === 'auto'
+					? timezone === 'auto' || timezone === 'off'
 						? moment(value).format(momentFormat)
-						: moment(value).utc().tz(timezone).format(momentFormat)
+						: moment(value)
+								.utc()
+								.tz(timezone)
+								.format(momentFormat)
 					: null}
 			</span>
 		);
