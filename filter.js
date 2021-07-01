@@ -8,17 +8,23 @@ const Filter = ({ column, id, list, setFilter }) => {
 	const [newOptions, setNewOptions] = useState(newList);
 	const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 	const [sort, setSort] = useState('');
+	const [selectedAll, setSelectedtAll] = useState(false);
 
 	const withFilterValue = column.filterValue ? (column.filterValue.length !== 0 ? true : false) : false;
 
 	useEffect(() => {
 		if (!!column.filterValue)
 			setSelected(newList.filter(d => column.filterValue.includes(d.value)).map(d => d.label));
+		if (column.filterValue) setSelectedtAll(column.filterValue.length === list.length + 1 ? true : false);
 	}, [JSON.stringify(column.filterValue)]);
 
 	useEffect(() => {
 		setSort(column.isSorted ? (column.isSortedDesc ? 'DESC' : 'ASC') : '');
 	}, [column.isSorted, column.isSortedDesc]);
+
+	useEffect(() => {
+		setSelectedtAll(selected.length === list.length + 1 ? true : false);
+	}, [selected.length]);
 
 	const selectItem = value => {
 		if (selected.includes(value)) setSelected(selected.filter(d => d !== value));
@@ -60,6 +66,17 @@ const Filter = ({ column, id, list, setFilter }) => {
 		else column.clearSortBy();
 	};
 
+	const onSelectAll = () => {
+		if (selectedAll) return onClearAll();
+		setSelected([...list.map(d => d.label), '(Blank)']);
+		setSelectedtAll(true);
+	};
+
+	const onClearAll = () => {
+		setSelected([]);
+		setSelectedtAll(false);
+	};
+
 	const renderPopoverContent = () => {
 		const a2zType = sort === 'ASC' ? 'primary' : 'default',
 			z2aType = sort === 'DESC' ? 'primary' : 'default';
@@ -82,7 +99,17 @@ const Filter = ({ column, id, list, setFilter }) => {
 				</div>
 				<Divider style={{ margin: '10px 0px' }} />
 				<div>
-					<h4>Filter {renderCount()}</h4>
+					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+						<h4>Filter {renderCount()}</h4>
+						<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+							<Checkbox checked={selectedAll} onClick={() => onSelectAll()} style={{ fontSize: '15px' }}>
+								Select All
+							</Checkbox>
+							<Button onClick={() => onClearAll()} size="small" type="link" danger>
+								Clear All
+							</Button>
+						</div>
+					</div>
 					<Input.Search
 						allowClear
 						onKeyUp={e => handleSearch(e.target.value)}
