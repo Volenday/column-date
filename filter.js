@@ -4,7 +4,7 @@ import { FilterFilled, FilterOutlined } from '@ant-design/icons';
 
 const Filter = ({ column, id, list, setFilter }) => {
 	const newList = [{ label: '(Blank)', value: '' }, ...list];
-	const [selected, setSelected] = useState([]);
+	const [selected, setSelected] = useState(newList);
 	const [newOptions, setNewOptions] = useState(newList);
 	const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 	const [sort, setSort] = useState('');

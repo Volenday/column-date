@@ -8,7 +8,7 @@ import Filter from './filter';
 
 const browser = typeof process.browser !== 'undefined' ? process.browser : true;
 
-export default ({
+const ColumnDate = ({
 	editable = false,
 	fieldType,
 	filterType = 'dateRange',
@@ -114,3 +114,5 @@ const Cell = memo(
 		);
 	}
 );
+
+export default ColumnDate;
