@@ -1,6 +1,7 @@
-import React, { memo, useEffect, useState } from 'react';
-import { Button, Checkbox, Divider, Input, List, Popover } from 'antd';
+import React, { memo, useEffect, useState, useCallback } from 'react';
+import { Button, Checkbox, Divider, Input, Popover } from 'antd';
 import { FilterFilled, FilterOutlined } from '@ant-design/icons';
+import { FixedSizeList } from 'react-window';
 
 const Filter = ({ column, id, list, setFilter }) => {
 	const newList = [{ label: '(Blank)', value: '' }, ...list];
@@ -11,6 +12,7 @@ const Filter = ({ column, id, list, setFilter }) => {
 	const [selectedAll, setSelectedtAll] = useState(false);
 
 	const withFilterValue = column.filterValue ? (column.filterValue.length !== 0 ? true : false) : false;
+	const listCount = newOptions.length;
 
 	useEffect(() => {
 		if (!!column.filterValue)
@@ -31,18 +33,23 @@ const Filter = ({ column, id, list, setFilter }) => {
 		else setSelected([...selected, value]);
 	};
 
-	const renderItem = item => {
-		return (
-			<List.Item style={{ cursor: 'pointer', padding: '5px 0px' }}>
-				<Checkbox
-					checked={selected.includes(item.label)}
-					onChange={() => selectItem(item.label)}
-					style={{ textAlign: 'justify' }}>
-					{item.label}
-				</Checkbox>
-			</List.Item>
-		);
-	};
+	const Row = useCallback(
+		({ index, style }) => {
+			const item = newOptions[index];
+
+			return (
+				<div style={{ ...style, cursor: 'pointer', padding: '5px 0px', borderBottom: '1px solid #f0f0f0' }}>
+					<Checkbox
+						checked={selected.includes(item.label)}
+						onChange={() => selectItem(item.label)}
+						style={{ textAlign: 'justify' }}>
+						{item.label}
+					</Checkbox>
+				</div>
+			);
+		},
+		[newOptions, selected]
+	);
 
 	const renderCount = () => {
 		if (!column.filterValue) return null;
@@ -116,11 +123,9 @@ const Filter = ({ column, id, list, setFilter }) => {
 						onSearch={handleSearch}
 						placeholder="Search"
 					/>
-					<List
-						dataSource={newOptions}
-						renderItem={renderItem}
-						style={{ height: 150, overflowY: 'scroll' }}
-					/>
+					<FixedSizeList height={150} itemCount={listCount} itemSize={30} width={300}>
+						{Row}
+					</FixedSizeList>
 				</div>
 				<Divider style={{ margin: '10px 0px' }} />
 				<div>
