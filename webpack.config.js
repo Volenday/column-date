@@ -58,7 +58,8 @@ module.exports = {
 		'@ant-design/icons': '@ant-design/icons',
 		'moment-timezone': 'moment-timezone',
 		react: 'react',
-		'react-hook-form': 'react-hook-form'
+		'react-hook-form': 'react-hook-form',
+		'react-window': 'react-window'
 	},
 	plugins: [
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
