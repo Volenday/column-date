@@ -5,7 +5,7 @@ import { FixedSizeList } from 'react-window';
 
 const Filter = ({ column, id, list, setFilter }) => {
 	const newList = [{ label: '(Blank)', value: '' }, ...list];
-	const [selected, setSelected] = useState(newList);
+	const [selected, setSelected] = useState(['', ...list.map(d => d.value)]);
 	const [newOptions, setNewOptions] = useState(newList);
 	const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 	const [sort, setSort] = useState('');
@@ -16,7 +16,12 @@ const Filter = ({ column, id, list, setFilter }) => {
 
 	useEffect(() => {
 		if (!!column.filterValue)
-			setSelected(newList.filter(d => column.filterValue.includes(d.value)).map(d => d.label));
+			setSelected(prev =>
+				column.filterValue.length === 0
+					? prev
+					: newList.filter(d => column.filterValue.includes(d.value)).map(d => d.value)
+			);
+
 		if (column.filterValue) setSelectedtAll(column.filterValue.length === list.length + 1 ? true : false);
 	}, [JSON.stringify(column.filterValue)]);
 
@@ -40,8 +45,8 @@ const Filter = ({ column, id, list, setFilter }) => {
 			return (
 				<div style={{ ...style, cursor: 'pointer', padding: '5px 0px', borderBottom: '1px solid #f0f0f0' }}>
 					<Checkbox
-						checked={selected.includes(item.label)}
-						onChange={() => selectItem(item.label)}
+						checked={selected.includes(item.value)}
+						onChange={() => selectItem(item.value)}
 						style={{ textAlign: 'justify' }}>
 						{item.label}
 					</Checkbox>
@@ -64,18 +69,14 @@ const Filter = ({ column, id, list, setFilter }) => {
 	};
 
 	const onOk = () => {
-		const selectedFilter = newList.filter(d => selected.includes(d.label));
-		setFilter(
-			id,
-			selectedFilter.map(d => d.value)
-		);
+		setFilter(id, selectedAll ? [] : selected);
 		if (sort) column.toggleSortBy(sort === 'ASC' ? false : sort === 'DESC' ? true : '');
 		else column.clearSortBy();
 	};
 
 	const onSelectAll = () => {
 		if (selectedAll) return onClearAll();
-		setSelected([...list.map(d => d.label), '(Blank)']);
+		setSelected([...list.map(d => d.value), '']);
 		setSelectedtAll(true);
 	};
 
@@ -143,7 +144,7 @@ const Filter = ({ column, id, list, setFilter }) => {
 						<Button onClick={closePopover} type="default">
 							Cancel
 						</Button>
-						<Button onClick={onOk} type="primary">
+						<Button disabled={selected.length === 0} onClick={onOk} type="primary">
 							OK
 						</Button>
 					</div>
