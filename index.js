@@ -16,7 +16,6 @@ const ColumnDate = ({
 	id,
 	list = [],
 	onChange,
-	width,
 	...defaultProps
 }) => {
 	let momentFormat = 'MMMM DD, YYYY';
@@ -31,8 +30,6 @@ const ColumnDate = ({
 
 	return {
 		...defaultProps,
-		minWidth: 250,
-		width,
 		Cell: props =>
 			browser ? (
 				<Suspense fallback={<Skeleton active={true} paragraph={null} />}>
