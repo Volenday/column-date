@@ -53,12 +53,10 @@ module.exports = {
 		libraryTarget: 'commonjs2'
 	},
 	externals: {
-		'@volenday/input-date': '@volenday/input-date',
 		antd: 'antd',
 		'@ant-design/icons': '@ant-design/icons',
 		'moment-timezone': 'moment-timezone',
 		react: 'react',
-		'react-hook-form': 'react-hook-form',
 		'react-window': 'react-window'
 	},
 	plugins: [

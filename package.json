@@ -11,12 +11,11 @@
 	},
 	"main": "dist/index.min.js",
 	"peerDependencies": {
-		"@ant-design/icons": "^4.6.2",
-		"@volenday/input-date": "^2.2.1",
-		"antd": "^4.16.3",
-		"moment-timezone": "^0.5.33",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
+		"@ant-design/icons": "^4.7.0",
+		"antd": "^4.16.13",
+		"moment-timezone": "^0.5.34",
+		"react": "^18.0.0-alpha-a44a7a2a3-20211111",
+		"react-dom": "^18.0.0-alpha-a44a7a2a3-20211111",
 		"react-window": "^1.8.6"
 	},
 	"devDependencies": {
