@@ -15,6 +15,7 @@ const ColumnDate = ({
 	timezone = 'auto',
 	id,
 	list = [],
+	loading = false,
 	onChange,
 	...defaultProps
 }) => {
@@ -42,7 +43,7 @@ const ColumnDate = ({
 		Filter: props =>
 			browser ? (
 				<Suspense fallback={<Skeleton active={true} paragraph={null} />}>
-					<Filter {...props} id={id} list={list} />
+					<Filter {...props} id={id} list={list} loading={loading} />
 				</Suspense>
 			) : null
 	};
@@ -83,10 +84,7 @@ const Cell = memo(
 									value={
 										timezone === 'auto' || timezone === 'off'
 											? value
-											: moment(value)
-													.utc()
-													.tz(timezone)
-													.format(momentFormat)
+											: moment(value).utc().tz(timezone).format(momentFormat)
 									}
 									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
 								/>
@@ -102,10 +100,7 @@ const Cell = memo(
 				{moment(value).isValid()
 					? timezone === 'auto' || timezone === 'off'
 						? moment(value).format(momentFormat)
-						: moment(value)
-								.utc()
-								.tz(timezone)
-								.format(momentFormat)
+						: moment(value).utc().tz(timezone).format(momentFormat)
 					: null}
 			</span>
 		);
