@@ -1,9 +1,9 @@
 import React, { memo, useEffect, useState, useCallback } from 'react';
-import { Button, Checkbox, Divider, Input, Popover } from 'antd';
+import { Button, Checkbox, Divider, Input, Popover, Spin } from 'antd';
 import { FilterFilled, FilterOutlined } from '@ant-design/icons';
 import { FixedSizeList } from 'react-window';
 
-const Filter = ({ column, id, list, setFilter }) => {
+const Filter = ({ column, id, list, loading, setFilter }) => {
 	const newList = [{ label: '(Blank)', value: '' }, ...list];
 	const [selected, setSelected] = useState(['', ...list.map(d => d.value)]);
 	const [newOptions, setNewOptions] = useState(newList);
@@ -120,13 +120,24 @@ const Filter = ({ column, id, list, setFilter }) => {
 					</div>
 					<Input.Search
 						allowClear
+						disabled={loading}
 						onKeyUp={e => handleSearch(e.target.value)}
 						onSearch={handleSearch}
 						placeholder="Search"
 					/>
-					<FixedSizeList height={150} itemCount={listCount} itemSize={30} width={300}>
-						{Row}
-					</FixedSizeList>
+					{loading ? (
+						<div style={{ display: 'flex', justifyContent: 'center', margin: '15px' }}>
+							<Spin
+								tip="Please wait, while options are loading."
+								size="small"
+								style={{ fontSize: '10pt' }}
+							/>
+						</div>
+					) : (
+						<FixedSizeList height={150} itemCount={listCount} itemSize={30} width={300}>
+							{Row}
+						</FixedSizeList>
+					)}
 				</div>
 				<Divider style={{ margin: '10px 0px' }} />
 				<div>
