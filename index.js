@@ -1,6 +1,8 @@
-import React, { memo, Suspense, useRef, useState } from 'react';
+import React, { memo, Suspense, useRef, useState, useEffect } from 'react';
 import moment from 'moment-timezone';
+import reactStringReplace from 'react-string-replace';
 import { Skeleton } from 'antd';
+import striptags from 'striptags';
 
 import './styles.css';
 
@@ -17,17 +19,26 @@ const ColumnDate = ({
 	list = [],
 	loading = false,
 	onChange,
+	keywords,
+	format = 'MMMM DD, YYYY',
 	...defaultProps
 }) => {
-	let momentFormat = 'MMMM DD, YYYY';
-	switch (fieldType) {
-		case 'datetime':
-			momentFormat = 'MMMM DD, YYYY hh:mm A';
-			break;
-		case 'time':
-			momentFormat = 'hh:mm A';
-			break;
-	}
+	const [momentFormat, setMomentFormat] = useState('MMMM DD, YYYY');
+
+	useEffect(() => {
+		if (format) {
+			setMomentFormat(format);
+		} else {
+			switch (fieldType) {
+				case 'datetime':
+					setMomentFormat('MMMM DD, YYYY hh:mm A');
+					break;
+				case 'time':
+					setMomentFormat('hh:mm A');
+					break;
+			}
+		}
+	}, [format]);
 
 	return {
 		...defaultProps,
@@ -36,7 +47,16 @@ const ColumnDate = ({
 				<Suspense fallback={<Skeleton active={true} paragraph={null} />}>
 					<Cell
 						{...props}
-						other={{ editable, fieldType, id, momentFormat, onChange, styles: { width: '100%' }, timezone }}
+						other={{
+							editable,
+							fieldType,
+							id,
+							momentFormat,
+							onChange,
+							styles: { width: '100%' },
+							timezone,
+							keywords
+						}}
 					/>
 				</Suspense>
 			) : null,
@@ -49,8 +69,44 @@ const ColumnDate = ({
 	};
 };
 
+const removeHTMLEntities = (text, multiple) => {
+	const elem = multiple ? document.createElement('div') : document.createElement('span');
+	return text.replace(/&[#A-Za-z0-9]+;/gi, entity => {
+		elem.innerHTML = entity;
+		return elem.innerText;
+	});
+};
+
+const highlightsKeywords = (keywords, stripHTMLTags = false, toConvert, multiple) => {
+	const strip = stripHTMLTags ? removeHTMLEntities(striptags(toConvert), multiple) : toConvert;
+	const replaceText =
+		keywords !== '' ? (
+			reactStringReplace(strip, new RegExp('(' + keywords + ')', 'gi'), (match, index) => {
+				return multiple ? (
+					<div key={`${match}-${index}`} style={{ backgroundColor: 'yellow', fontWeight: 'bold' }}>
+						{match}
+					</div>
+				) : (
+					<span key={`${match}-${index}`} style={{ backgroundColor: 'yellow', fontWeight: 'bold' }}>
+						{match}
+					</span>
+				);
+			})
+		) : multiple ? (
+			<div>{strip}</div>
+		) : (
+			<span>{strip}</span>
+		);
+
+	return replaceText;
+};
+
 const Cell = memo(
-	({ other: { editable, fieldType, id, momentFormat, onChange, styles, timezone }, row: { original }, value }) => {
+	({
+		other: { editable, fieldType, id, momentFormat, onChange, styles, timezone, keywords },
+		row: { original },
+		value
+	}) => {
 		if (typeof value == 'undefined') return null;
 
 		if (editable) {
@@ -84,7 +140,10 @@ const Cell = memo(
 									value={
 										timezone === 'auto' || timezone === 'off'
 											? value
-											: moment(value).utc().tz(timezone).format(momentFormat)
+											: moment(value)
+													.utc()
+													.tz(timezone)
+													.format(momentFormat)
 									}
 									withTime={fieldType == 'datetime' || fieldType == 'time' ? true : false}
 								/>
@@ -99,8 +158,15 @@ const Cell = memo(
 			<span>
 				{moment(value).isValid()
 					? timezone === 'auto' || timezone === 'off'
-						? moment(value).format(momentFormat)
-						: moment(value).utc().tz(timezone).format(momentFormat)
+						? highlightsKeywords(keywords, false, moment(value).format(momentFormat))
+						: highlightsKeywords(
+								keywords,
+								false,
+								moment(value)
+									.utc()
+									.tz(timezone)
+									.format(momentFormat)
+						  )
 					: null}
 			</span>
 		);
