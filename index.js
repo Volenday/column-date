@@ -1,4 +1,4 @@
-import React, { memo, Suspense, useRef, useState, useEffect } from 'react';
+import React, { memo, Suspense, useRef } from 'react';
 import moment from 'moment-timezone';
 import reactStringReplace from 'react-string-replace';
 import { Skeleton } from 'antd';
@@ -20,25 +20,22 @@ const ColumnDate = ({
 	loading = false,
 	onChange,
 	keywords,
-	format = 'MMMM DD, YYYY',
+	format = null,
 	...defaultProps
 }) => {
-	const [momentFormat, setMomentFormat] = useState('MMMM DD, YYYY');
-
-	useEffect(() => {
-		if (format) {
-			setMomentFormat(format);
-		} else {
-			switch (fieldType) {
-				case 'datetime':
-					setMomentFormat('MMMM DD, YYYY hh:mm A');
-					break;
-				case 'time':
-					setMomentFormat('hh:mm A');
-					break;
-			}
+	let momentFormat = 'MMMM DD, YYYY';
+	if (format) {
+		momentFormat = format;
+	} else {
+		switch (fieldType) {
+			case 'datetime':
+				momentFormat = 'MMMM DD, YYYY hh:mm A';
+				break;
+			case 'time':
+				momentFormat = 'hh:mm A';
+				break;
 		}
-	}, [format]);
+	}
 
 	return {
 		...defaultProps,
