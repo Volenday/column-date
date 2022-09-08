@@ -1,5 +1,8 @@
 import React, { memo, Suspense, useRef } from 'react';
 import moment from 'moment-timezone';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import dayjs from 'dayjs';
 import reactStringReplace from 'react-string-replace';
 import { Skeleton } from 'antd';
 import striptags from 'striptags';
@@ -9,6 +12,9 @@ import './styles.css';
 import Filter from './filter';
 
 const browser = typeof process.browser !== 'undefined' ? process.browser : true;
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const ColumnDate = ({
 	editable = false,
@@ -137,7 +143,7 @@ const Cell = memo(
 									value={
 										timezone === 'auto' || timezone === 'off'
 											? value
-											: moment(value)
+											: dayjs(value)
 													.utc()
 													.tz(timezone)
 													.format(momentFormat)
@@ -153,13 +159,13 @@ const Cell = memo(
 
 		return (
 			<span>
-				{moment(value).isValid()
+				{dayjs(value).isValid()
 					? timezone === 'auto' || timezone === 'off'
-						? highlightsKeywords(keywords, false, moment(value).format(momentFormat))
+						? highlightsKeywords(keywords, false, dayjs(value).format(momentFormat))
 						: highlightsKeywords(
 								keywords,
 								false,
-								moment(value)
+								dayjs(value)
 									.utc()
 									.tz(timezone)
 									.format(momentFormat)
